@@ -18,7 +18,7 @@ const jsPsych = initJsPsych({
         //jsPsych.data.displayData("csv")
 
         // output data in the form of csv
-        jsPsych.data.get().localSave("csv", "data.csv")
+        //jsPsych.data.get().localSave("csv", "data.csv")
     }
 });
 
@@ -36,7 +36,7 @@ const informedConsentText = [// p: paragraph, b: bold, br: start new line
     '<p><b>1.本実験・調査の目的と概要</b>' +
     '<br>この研究の目的は，ヒトの学習・行動選択のメカニズムおよびその個人特性との関連を検討することです。'  +
     '<br>本日は簡単な質問紙調査ののちに，行動実験に取り組んでいただきます。'+
-    '<br>所要時間は90-120分程度を予定しています。</p>' +
+    '<br>所要時間は120分程度を予定しています。</p>' +
     '<p><b>2.同意の撤回について</b>' +
     '<br>本実験は大きなストレスや苦痛を伴うものではありませんが，いかなる理由で同意を撤回し，実験を途中で中断・終了されても，' +
     '<br>また，実験終了後にデータ使用の中止を申し出ても，あなたが不利益を被ることはありません。' +
@@ -60,7 +60,7 @@ const informedConsent = {
     type: jsPsychSurveyMultiSelect,
     questions: [{
         prompt: '<span style = "font-size: 3vh"><b>上記事項をよく読み，理解した上で実験参加に同意いただける方はチェックをお願いします。同意されない方はエスケープ（ESC）を押した後，ウィンドウを閉じてください。</b></span>',
-        options: ['<span style = "font-size: 3vh">説明事項をよく読み，理解した上で，実験参加に同意します。</span>'],
+        options: ['<span style = "font-size: 3vh">研究の説明および謝礼についての注意事項をよく読み，理解した上で，実験参加に同意します。</span>'],
         required: true,
         name: 'approval'
     }],
