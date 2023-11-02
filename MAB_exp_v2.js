@@ -59,7 +59,7 @@ const informedConsentText = [// p: paragraph, b: bold, br: start new line
 const informedConsent = {
     type: jsPsychSurveyMultiSelect,
     questions: [{
-        prompt: '<span style = "font-size: 3vh"><b>上記事項をよく読み，理解した上で実験参加に同意いただける方はチェックをお願いします。同意されない方はエスケープ（ESC）を押した後，ウィンドウを閉じてください。</b></span>',
+        prompt: '<span style = "font-size: 3vh"><b>上記事項および研究説明書（謝礼についての注意事項も含む）をよく読み，理解した上で実験参加に同意いただける方はチェックをお願いします。同意されない方はエスケープ（ESC）を押した後，ウィンドウを閉じてください。</b></span>',
         options: ['<span style = "font-size: 3vh">研究の説明および謝礼についての注意事項をよく読み，理解した上で，実験参加に同意します。</span>'],
         required: true,
         name: 'approval'
