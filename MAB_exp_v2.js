@@ -18,7 +18,7 @@ const jsPsych = initJsPsych({
         //jsPsych.data.displayData("csv")
 
         // output data in the form of csv
-        jsPsych.data.get().localSave("csv", "data.csv")
+        //jsPsych.data.get().localSave("csv", "data.csv")
     }
 });
 
