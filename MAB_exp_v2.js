@@ -221,7 +221,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
             else {// after the second block
                 // Check if this is the novel holdout introduction trial
                 if (tI == novelHoldoutTrial-1) {// trial to introduce novel holdout stimulus
-                    console.log("Novel holdout introduction");
+                    //console.log("Novel holdout introduction");
                     candidateStimOfTrial[novelHoldoutIdx] = 1;
                     stimOfTrial[novelHoldoutIdx] = 1;
                 };
@@ -232,7 +232,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
 
                 // Check if this is the familiar holdout introduction trial
                 if (tI == familiarHoldoutTrial-1) {// trial to introduce familiar holdout stimulus
-                    console.log("Familiar holdout introduction");
+                    //console.log("Familiar holdout introduction");
                     stimOfTrial[familiarHoldoutIdx] = 1;
                     candidateStimOfTrial[familiarHoldoutIdx] = 1;
                 };
@@ -242,10 +242,10 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
                 };
     
                 // find the candidate index to present
-                console.log(candidateStimOfTrial);
-                console.log(stimOfTrial);
+                //console.log(candidateStimOfTrial);
+                //console.log(stimOfTrial);
                 candidateStimOfTrial = array_subtract(candidateStimOfTrial, stimOfTrial);
-                console.log(candidateStimOfTrial);
+                //console.log(candidateStimOfTrial);
                 candidateStimOfTrial.filter((value, index) => {
                     if (value == 1) {
                         candidateStimIdxOfTrial.push(index);
@@ -253,7 +253,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
                 });
                 let numSample = 2 - sum(stimOfTrial);
                 stimIdxOfTrial = jsPsych.randomization.sampleWithoutReplacement(candidateStimIdxOfTrial, numSample);
-                console.log(candidateStimIdxOfTrial);
+                //console.log(candidateStimIdxOfTrial);
                 stimOfTrial = replace_once(stimOfTrial, stimIdxOfTrial, 1);
                 stimIdxOfTrial = [];
                 stimOfTrial.filter((value, index) => {
@@ -932,7 +932,7 @@ const ask_question = {
     },
     choices: ["a", "b", "c"],
     on_finish: function() {
-        console.log(qTrial);
+        //console.log(qTrial);
         pressedKey = jsPsych.data.get().last(1).values()[0].response;
         if (pressedKey == "b") {
             if (qTrial == 1 || qTrial == 4) {
@@ -1071,7 +1071,7 @@ const show_and_select = {
         data.rightStimOriginal = stim_r;
         data.isLeftSelected = isLeftSelected;
         if (condArray[block-1] == 0) {
-            console.log(stimIdxInBlockArrayLow[block-1]);
+            //console.log(stimIdxInBlockArrayLow[block-1]);
             data.numExposeLeft = numExposeLow[stim_l_index];
             data.numExposeRight = numExposeLow[stim_r_index];
             data.numWinLeft = numWinLow[stim_l_index];
@@ -1079,7 +1079,7 @@ const show_and_select = {
             data.numLossLeft = numLossLow[stim_l_index];
             data.numLossRight = numLossLow[stim_r_index];
         } else if (condArray[block-1] == 1) {
-            console.log(stimIdxInBlockArrayHigh[block-1]);
+            //console.log(stimIdxInBlockArrayHigh[block-1]);
             data.numExposeLeft = numExposeHigh[stim_l_index];
             data.numExposeRight = numExposeHigh[stim_r_index];
             data.numWinLeft = numWinHigh[stim_l_index];
@@ -1087,8 +1087,8 @@ const show_and_select = {
             data.numLossLeft = numLossHigh[stim_l_index];
             data.numLossRight = numLossHigh[stim_r_index];
         }
-        console.log(stim_l_index);
-        console.log(stim_r_index);
+        //console.log(stim_l_index);
+        //console.log(stim_r_index);
     }
 };
 
@@ -1181,7 +1181,7 @@ const get_coin = {
             };
             
             // present coin or not
-            console.log(rProbSelected);
+            //console.log(rProbSelected);
             if (Math.random() < rProbSelected) {// get coin
                 isCoin = 1;
                 html = "<p class='center'><img src='slots_and_coin/COIN.png'></p>";
