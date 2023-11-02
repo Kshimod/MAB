@@ -18,7 +18,7 @@ const jsPsych = initJsPsych({
         //jsPsych.data.displayData("csv")
 
         // output data in the form of csv
-        //jsPsych.data.get().localSave("csv", "data.csv")
+        jsPsych.data.get().localSave("csv", "data.csv")
     }
 });
 
@@ -59,8 +59,8 @@ const informedConsentText = [// p: paragraph, b: bold, br: start new line
 const informedConsent = {
     type: jsPsychSurveyMultiSelect,
     questions: [{
-        prompt: '<span style = "font-size: 3vh"><b>上記事項および研究説明書（謝礼についての注意事項も含む）をよく読み，理解した上で実験参加に同意いただける方はチェックをお願いします。同意されない方はエスケープ（ESC）を押した後，ウィンドウを閉じてください。</b></span>',
-        options: ['<span style = "font-size: 3vh">研究の説明および謝礼についての注意事項をよく読み，理解した上で，実験参加に同意します。</span>'],
+        prompt: '<span style = "font-size: 3vh"><b>上記事項および研究説明書の内容 (謝礼についての注意事項を含む) を理解した上で実験参加に同意いただける方はチェックをお願いします。同意されない方はエスケープ（ESC）を押した後，ウィンドウを閉じてください。</b></span>',
+        options: ['<span style = "font-size: 3vh">研究内容や謝礼についての説明をよく読み，理解した上で，実験参加に同意します。</span>'],
         required: true,
         name: 'approval'
     }],
@@ -221,7 +221,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
             else {// after the second block
                 // Check if this is the novel holdout introduction trial
                 if (tI == novelHoldoutTrial-1) {// trial to introduce novel holdout stimulus
-                    //console.log("Novel holdout introduction");
+                    console.log("Novel holdout introduction");
                     candidateStimOfTrial[novelHoldoutIdx] = 1;
                     stimOfTrial[novelHoldoutIdx] = 1;
                 };
@@ -232,7 +232,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
 
                 // Check if this is the familiar holdout introduction trial
                 if (tI == familiarHoldoutTrial-1) {// trial to introduce familiar holdout stimulus
-                    //console.log("Familiar holdout introduction");
+                    console.log("Familiar holdout introduction");
                     stimOfTrial[familiarHoldoutIdx] = 1;
                     candidateStimOfTrial[familiarHoldoutIdx] = 1;
                 };
@@ -242,10 +242,10 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
                 };
     
                 // find the candidate index to present
-                //console.log(candidateStimOfTrial);
-                //console.log(stimOfTrial);
+                console.log(candidateStimOfTrial);
+                console.log(stimOfTrial);
                 candidateStimOfTrial = array_subtract(candidateStimOfTrial, stimOfTrial);
-                //console.log(candidateStimOfTrial);
+                console.log(candidateStimOfTrial);
                 candidateStimOfTrial.filter((value, index) => {
                     if (value == 1) {
                         candidateStimIdxOfTrial.push(index);
@@ -253,7 +253,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
                 });
                 let numSample = 2 - sum(stimOfTrial);
                 stimIdxOfTrial = jsPsych.randomization.sampleWithoutReplacement(candidateStimIdxOfTrial, numSample);
-                //console.log(candidateStimIdxOfTrial);
+                console.log(candidateStimIdxOfTrial);
                 stimOfTrial = replace_once(stimOfTrial, stimIdxOfTrial, 1);
                 stimIdxOfTrial = [];
                 stimOfTrial.filter((value, index) => {
@@ -277,7 +277,7 @@ let numCondBlocks = 15;
 let numBlocks = numCondBlocks*2; // 30
 let block = 1;
 let blockCond = 1;
-let numTrialInBlock = 20;
+let numTrialInBlock = 2;
 let trialInBlock = 1;
 let totalTrial = 1;
 let pointInBlock = 0;
@@ -326,9 +326,9 @@ let pressedKey;
 let isLeftSelected;
 let isCoin; // whether coin was obtained or not
 let reward; // presented size of reward
-let largeMean = 100;
+let largeMean = 80;
 let smallMean = 10;
-let largeSD = 10;
+let largeSD = 8;
 let smallSD = 1;
 let cesd_qs = [
     "普段はなんでもないことがわずらわしい。",
@@ -677,6 +677,20 @@ const ITI = {
     trial_duration: runif(500, 1500)
 };
 
+// ITI for main
+const ITI_main = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function() {
+        let html = "<p class='center_point'>+</p>";
+        html += `<p class='upper_right'>このカジノで得た金額：<br><b>${pointInBlock}</b>円</p>`;
+        html += `<p class='trial_pos'><b>${trialInBlock}</b>  /20試行`;
+        return html;
+    },
+    choices: "NO_KEYS",
+    trial_duration: runif(500, 1500)
+};
+
+
 const show_and_select_prac = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function() {
@@ -744,7 +758,7 @@ const get_coin_prac = {
         };
         if (isCoinPrac == 1) {
             html = "<p class='center'><img src='slots_and_coin/COIN.png'></p>";
-            html += "<p class='center_upper'><b>コインを獲得しました！</b><br><br>ボーナススロットを回せます。</p>"
+            html += "<p class='center_upper'><b>コインを獲得しました！</b><br>ボーナススロットを回せます。</p>"
         } else {
             html = "<p class='center'><img src='slots_and_coin/no_coin.png'></p>";
             html += "<p class='center_upper'>残念…コインを得られませんでした。</p>";
@@ -932,7 +946,7 @@ const ask_question = {
     },
     choices: ["a", "b", "c"],
     on_finish: function() {
-        //console.log(qTrial);
+        console.log(qTrial);
         pressedKey = jsPsych.data.get().last(1).values()[0].response;
         if (pressedKey == "b") {
             if (qTrial == 1 || qTrial == 4) {
@@ -966,7 +980,7 @@ const show_answer = {
         } else {
             html = incorrectAns[qTrial-1];
         };
-        html += "<p class='center_lower'>次に進むにはJキーを押してください。<br>";
+        html += "<p class='center_lower'>次に進むには J キーを押してください。<br>";
         if (qTrial == 5) {
             html += "全問正解でない場合は，最初の質問に戻ります。<p>";
         };
@@ -1071,7 +1085,7 @@ const show_and_select = {
         data.rightStimOriginal = stim_r;
         data.isLeftSelected = isLeftSelected;
         if (condArray[block-1] == 0) {
-            //console.log(stimIdxInBlockArrayLow[block-1]);
+            console.log(stimIdxInBlockArrayLow[block-1]);
             data.numExposeLeft = numExposeLow[stim_l_index];
             data.numExposeRight = numExposeLow[stim_r_index];
             data.numWinLeft = numWinLow[stim_l_index];
@@ -1079,7 +1093,7 @@ const show_and_select = {
             data.numLossLeft = numLossLow[stim_l_index];
             data.numLossRight = numLossLow[stim_r_index];
         } else if (condArray[block-1] == 1) {
-            //console.log(stimIdxInBlockArrayHigh[block-1]);
+            console.log(stimIdxInBlockArrayHigh[block-1]);
             data.numExposeLeft = numExposeHigh[stim_l_index];
             data.numExposeRight = numExposeHigh[stim_r_index];
             data.numWinLeft = numWinHigh[stim_l_index];
@@ -1087,8 +1101,8 @@ const show_and_select = {
             data.numLossLeft = numLossHigh[stim_l_index];
             data.numLossRight = numLossHigh[stim_r_index];
         }
-        //console.log(stim_l_index);
-        //console.log(stim_r_index);
+        console.log(stim_l_index);
+        console.log(stim_r_index);
     }
 };
 
@@ -1181,11 +1195,11 @@ const get_coin = {
             };
             
             // present coin or not
-            //console.log(rProbSelected);
+            console.log(rProbSelected);
             if (Math.random() < rProbSelected) {// get coin
                 isCoin = 1;
                 html = "<p class='center'><img src='slots_and_coin/COIN.png'></p>";
-                html += "<p class='center_upper'><b>コインを獲得しました！</b><br><br>ボーナススロットを回せます。</p>"
+                html += "<p class='center_upper'><b>コインを獲得しました！</b><br>ボーナススロットを回せます。</p>"
                 if (condArray[block-1] == 0) {
                     numWinLow[chosenStim] += 1;
                 } else {
@@ -1313,7 +1327,7 @@ const text_after_block = {
         let restTime;
         let text = `<p class='inst_text'>${numBlocks}個中${block}個目のカジノでの試行が終了しました。<br><br>`;
         if (block == 15) {
-            restTime = 5;
+            restTime = 10;
             text += "前半が終了しました。お疲れさまでした。<br>"
             if (condArray[0] == 0) {// if the experiment starts with low reward block
                 text += "次のカジノからは，<b>【豪華なボーナススロット】</b>が用意されています。<br>";
@@ -1322,7 +1336,7 @@ const text_after_block = {
             };
             text += "<b>後半では用いられるすべての絵画が前半とは異なります</b>ので，注意してください。<br><br>";
         } else {
-            restTime = 1;
+            restTime = 3;
         };
 
         if (block == 30) {// finish
@@ -1340,7 +1354,7 @@ const text_after_block = {
 // timeline for one block
 const one_block = {
     timeline: [
-        ITI,
+        ITI_main,
         show_and_select,
         highlight,
         get_coin,
@@ -1366,12 +1380,12 @@ const all_blocks = {
     ],
     loop_function: function() {
         if (block < numBlocks) {
-            block += 1;
             if (block == 15) {
                 blockCond = 1; // reset
             } else {
                 blockCond += 1;
             };
+            block += 1;
             // reset
             trialInBlock = 1;
             pointInBlock = 0;
@@ -1449,7 +1463,7 @@ const memory_trial = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function() {
         let html;
-        if (stimType[memoryTrial-1] == 0) {// high reward stimulus
+        if (stimType[memoryTrial-1] == 1) {// high reward stimulus
             html = `<p class='center'><img src=${memoryStimH[memoryTrialH-1]}></p>`;
             memoryTrialH += 1;
         }
@@ -1461,21 +1475,21 @@ const memory_trial = {
             html = `<p class='center'><img src=${memoryStimU[memoryTrialU-1]}></p>`;
             memoryTrialU += 1;
         };
-        html += "<p class='center_lower'>この絵画をいずれかのカジノで見ましたか？<br>";
-        html += "はい: Y   いいえ: N</p>";
+        html += "<p class='trial_pos'>この絵画をいずれかのカジノで見ましたか？</p>";
+        html += "<p class='y_or_n'>はい: Y<br>いいえ: N</p>";
         return html;
     },
-    choices: ["Y", "N"],
+    choices: ["y", "n"],
     on_finish: function(data) {
         YorN = jsPsych.data.get().last(1).values()[0].response;
         if (stimType[memoryTrial-1] == 2) {// if unused stimulus is presented
-            if (YorN == "N") {
+            if (YorN == "n") {
                 correct = 1;
             } else {
                 correct = 0;
             };
         } else {// if used stimulus is presented
-            if (YorN == "Y") {
+            if (YorN == "y") {
                 correct = 1;
             } else {
                 correct = 0;
@@ -1483,9 +1497,9 @@ const memory_trial = {
         };
         // record
         data.timing = "memoryTest";
+        data.memoryTrial = memoryTrial;
         data.memoryStimType = stimType[memoryTrial-1];
         data.memoryCorrect = correct;
-        memoryTrial += 1;
     }
 };
 
@@ -1504,6 +1518,7 @@ const memory_block = {
     ],
     loop_function: function() {
         if (memoryTrial < memoryTrialNum) {
+            memoryTrial += 1;
             return true;
         } else {
             return false;
@@ -1559,7 +1574,8 @@ const full_exp = {
         all_blocks,
         inst_memory,
         memory_block,
-        end_exp
+        end_exp,
+        save_data
     ]
 };
 
