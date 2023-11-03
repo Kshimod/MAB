@@ -1533,13 +1533,25 @@ const end_exp = {
     stimulus: function() {
         let text;
         text = "<p class='inst_text'>これで実験は終了です。大変お疲れさまでした。<br>";
-        text += `冒頭でお伝えしたように，あなたのIDは"${participantID}"です。<br>`;
-        text += "このIDとともに，実験が終了したことを伝えるメールを下村まで送ってください。<br>";
-        text += "では最後にスペースキーを押して，<b>画面が完全に真っ暗になったのを必ず確認して</b>から，";
-        text += "画面を閉じてください。<br>";
-        text += "見えにくいですが，灰色のローディングマークが中央で回っている間はデータ転送中ですので，";
-        text += "画面を消さないように注意してください。<br>";
+        text += "長い実験に真摯に取り組んでいただき，深く感謝申し上げます。<br>";
+        text += "それでは最後に，データを転送していただきます。<br>";
+        text += "スペースキーを押して，文字が再度出てくるまでしばらくお待ちください。<br>";
+        text += "見えにくいですが，転送中は灰色のローディングマークが中央で回っています。<br>";
         text += "通常は30秒ほどでデータ転送が完了します。</p>";
+        return text;
+    },
+    choices: [" "]
+};
+
+const end_exp2 = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function() {
+        let text;
+        text = "<p class='inst_text'>転送が終了しました。<br>";
+        text += "改めて，ありがとうございました。<br>";
+        text += `冒頭でもお伝えしたように，あなたのIDは${participantID}です。`;
+        text += "お手数ですが，このIDとともに，実験が終了したことを実験実施者までメールで伝えてください。<br>";
+        text += "それでは，escキーを押して画面を閉じてください。</p>";
         return text;
     },
     choices: [" "]
@@ -1577,7 +1589,8 @@ const full_exp = {
         inst_memory,
         memory_block,
         end_exp,
-        save_data
+        save_data,
+        end_exp2
     ]
 };
 
