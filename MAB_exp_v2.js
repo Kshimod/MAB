@@ -273,7 +273,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
 
 // =========== prepare variables ===========
 let participantID = jsPsych.randomization.randomID(8); // generate randomly
-let numCondBlocks = 1;
+let numCondBlocks = 15;
 let numBlocks = numCondBlocks*2; // 30
 let block = 1;
 let blockCond = 1;
