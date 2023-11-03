@@ -18,7 +18,7 @@ const jsPsych = initJsPsych({
         //jsPsych.data.displayData("csv")
 
         // output data in the form of csv
-        jsPsych.data.get().localSave("csv", "data.csv")
+        //jsPsych.data.get().localSave("csv", "data.csv")
     }
 });
 
@@ -221,7 +221,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
             else {// after the second block
                 // Check if this is the novel holdout introduction trial
                 if (tI == novelHoldoutTrial-1) {// trial to introduce novel holdout stimulus
-                    console.log("Novel holdout introduction");
+                    //console.log("Novel holdout introduction");
                     candidateStimOfTrial[novelHoldoutIdx] = 1;
                     stimOfTrial[novelHoldoutIdx] = 1;
                 };
@@ -232,7 +232,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
 
                 // Check if this is the familiar holdout introduction trial
                 if (tI == familiarHoldoutTrial-1) {// trial to introduce familiar holdout stimulus
-                    console.log("Familiar holdout introduction");
+                    //console.log("Familiar holdout introduction");
                     stimOfTrial[familiarHoldoutIdx] = 1;
                     candidateStimOfTrial[familiarHoldoutIdx] = 1;
                 };
@@ -242,10 +242,10 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
                 };
     
                 // find the candidate index to present
-                console.log(candidateStimOfTrial);
-                console.log(stimOfTrial);
+                //console.log(candidateStimOfTrial);
+                //console.log(stimOfTrial);
                 candidateStimOfTrial = array_subtract(candidateStimOfTrial, stimOfTrial);
-                console.log(candidateStimOfTrial);
+                //console.log(candidateStimOfTrial);
                 candidateStimOfTrial.filter((value, index) => {
                     if (value == 1) {
                         candidateStimIdxOfTrial.push(index);
@@ -253,7 +253,7 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
                 });
                 let numSample = 2 - sum(stimOfTrial);
                 stimIdxOfTrial = jsPsych.randomization.sampleWithoutReplacement(candidateStimIdxOfTrial, numSample);
-                console.log(candidateStimIdxOfTrial);
+                //console.log(candidateStimIdxOfTrial);
                 stimOfTrial = replace_once(stimOfTrial, stimIdxOfTrial, 1);
                 stimIdxOfTrial = [];
                 stimOfTrial.filter((value, index) => {
@@ -273,11 +273,11 @@ function decide_stim_and_rProb(numCondBlocks, numTrialInBlock, numCondStim,
 
 // =========== prepare variables ===========
 let participantID = jsPsych.randomization.randomID(8); // generate randomly
-let numCondBlocks = 15;
+let numCondBlocks = 1;
 let numBlocks = numCondBlocks*2; // 30
 let block = 1;
 let blockCond = 1;
-let numTrialInBlock = 2;
+let numTrialInBlock = 20;
 let trialInBlock = 1;
 let totalTrial = 1;
 let pointInBlock = 0;
@@ -481,6 +481,7 @@ let cesd_single = {
         } else {
             cesdSum += cesdAns;
         }
+        data.participantID = participantID;
         data.timing = "CES-D";
         data.cesd_trialNum = cesdTrial;
         data.cesd_idx = idx;
@@ -550,6 +551,7 @@ let som_single = {
         somAns = Number(pressedKey);
         somSum += somAns;
         let idx = som_qs_index[somTrial-1];
+        data.participantID = participantID;
         data.timing = "SOM";
         data.som_trialNum = somTrial;
         data.som_idx = idx;
@@ -946,7 +948,7 @@ const ask_question = {
     },
     choices: ["a", "b", "c"],
     on_finish: function() {
-        console.log(qTrial);
+        //console.log(qTrial);
         pressedKey = jsPsych.data.get().last(1).values()[0].response;
         if (pressedKey == "b") {
             if (qTrial == 1 || qTrial == 4) {
@@ -1070,39 +1072,6 @@ const show_and_select = {
             chosenStim = null;
             unchosenStim = null;
         };
-
-        // record
-        data.participantID = participantID;
-        data.blockNumInCond = blockCond;
-        data.blockNumTotal = block;
-        data.trialNumInBlock = trialInBlock;
-        data.trialNumTotal = totalTrial;
-        data.blockCond = condArray[block-1];
-        data.timing = "first_choice";
-        data.leftStim = stim_l_index;
-        data.rightStim = stim_r_index;
-        data.leftStimOriginal = stim_l;
-        data.rightStimOriginal = stim_r;
-        data.isLeftSelected = isLeftSelected;
-        if (condArray[block-1] == 0) {
-            console.log(stimIdxInBlockArrayLow[block-1]);
-            data.numExposeLeft = numExposeLow[stim_l_index];
-            data.numExposeRight = numExposeLow[stim_r_index];
-            data.numWinLeft = numWinLow[stim_l_index];
-            data.numWinRight = numWinLow[stim_r_index];
-            data.numLossLeft = numLossLow[stim_l_index];
-            data.numLossRight = numLossLow[stim_r_index];
-        } else if (condArray[block-1] == 1) {
-            console.log(stimIdxInBlockArrayHigh[block-1]);
-            data.numExposeLeft = numExposeHigh[stim_l_index];
-            data.numExposeRight = numExposeHigh[stim_r_index];
-            data.numWinLeft = numWinHigh[stim_l_index];
-            data.numWinRight = numWinHigh[stim_r_index];
-            data.numLossLeft = numLossHigh[stim_l_index];
-            data.numLossRight = numLossHigh[stim_r_index];
-        }
-        console.log(stim_l_index);
-        console.log(stim_r_index);
     }
 };
 
@@ -1125,7 +1094,38 @@ const highlight = {
     },
     choices: "NO_KEYS",
     trial_duration: durLightSelected,
-    on_finish: function() {
+    on_finish: function(data) {
+        // record
+        data.participantID = participantID;
+        data.blockNumInCond = blockCond;
+        data.blockNumTotal = block;
+        data.trialNumInBlock = trialInBlock;
+        data.trialNumTotal = totalTrial;
+        data.blockCond = condArray[block-1];
+        data.timing = "first_choice";
+        data.leftStim = stim_l_index;
+        data.rightStim = stim_r_index;
+        data.leftStimOriginal = stim_l;
+        data.rightStimOriginal = stim_r;
+        data.isLeftSelected = isLeftSelected;
+        if (condArray[block-1] == 0) {
+            //console.log(stimIdxInBlockArrayLow[blockCond-1]);
+            data.numExposeLeft = numExposeLow[stim_l_index];
+            data.numExposeRight = numExposeLow[stim_r_index];
+            data.numWinLeft = numWinLow[stim_l_index];
+            data.numWinRight = numWinLow[stim_r_index];
+            data.numLossLeft = numLossLow[stim_l_index];
+            data.numLossRight = numLossLow[stim_r_index];
+        } else if (condArray[block-1] == 1) {
+            //console.log(stimIdxInBlockArrayHigh[blockCond-1]);
+            data.numExposeLeft = numExposeHigh[stim_l_index];
+            data.numExposeRight = numExposeHigh[stim_r_index];
+            data.numWinLeft = numWinHigh[stim_l_index];
+            data.numWinRight = numWinHigh[stim_r_index];
+            data.numLossLeft = numLossHigh[stim_l_index];
+            data.numLossRight = numLossHigh[stim_r_index];
+        };
+        
         // update the number of exposure
         if (chosenStim != null) {
             if (condArray[block-1] == 0) {// low reward
@@ -1195,7 +1195,7 @@ const get_coin = {
             };
             
             // present coin or not
-            console.log(rProbSelected);
+            //console.log(rProbSelected);
             if (Math.random() < rProbSelected) {// get coin
                 isCoin = 1;
                 html = "<p class='center'><img src='slots_and_coin/COIN.png'></p>";
@@ -1313,6 +1313,7 @@ const show_outcome = {
         return td;
     },
     on_finish: function(data) {
+        data.participantID = participantID;
         data.timing = "outcome";
         data.isCoin = isCoin;
         data.reward = reward;
@@ -1326,7 +1327,7 @@ const text_after_block = {
     stimulus: function() {
         let restTime;
         let text = `<p class='inst_text'>${numBlocks}個中${block}個目のカジノでの試行が終了しました。<br><br>`;
-        if (block == 15) {
+        if (block == numCondBlocks) {
             restTime = 10;
             text += "前半が終了しました。お疲れさまでした。<br>"
             if (condArray[0] == 0) {// if the experiment starts with low reward block
@@ -1380,7 +1381,7 @@ const all_blocks = {
     ],
     loop_function: function() {
         if (block < numBlocks) {
-            if (block == 15) {
+            if (block == numCondBlocks) {
                 blockCond = 1; // reset
             } else {
                 blockCond += 1;
@@ -1496,6 +1497,7 @@ const memory_trial = {
             };
         };
         // record
+        data.participantID = participantID;
         data.timing = "memoryTest";
         data.memoryTrial = memoryTrial;
         data.memoryStimType = stimType[memoryTrial-1];
