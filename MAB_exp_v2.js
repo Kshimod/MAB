@@ -36,7 +36,7 @@ const informedConsentText = [// p: paragraph, b: bold, br: start new line
     '<p><b>1.本実験・調査の目的と概要</b>' +
     '<br>この研究の目的は，ヒトの学習・行動選択のメカニズムおよびその個人特性との関連を検討することです。'  +
     '<br>本日は簡単な質問紙調査ののちに，行動実験に取り組んでいただきます。'+
-    '<br>所要時間は120分程度を予定しています。</p>' +
+    '<br>所要時間は90分から120分程度を予定しています。</p>' +
     '<p><b>2.同意の撤回について</b>' +
     '<br>本実験は大きなストレスや苦痛を伴うものではありませんが，いかなる理由で同意を撤回し，実験を途中で中断・終了されても，' +
     '<br>また，実験終了後にデータ使用の中止を申し出ても，あなたが不利益を被ることはありません。' +
@@ -309,7 +309,7 @@ let stimIdxInBlockArrayHigh = high_res[1];
 let rProbInBlockArrayLow = low_res[2];
 let rProbInBlockArrayHigh = high_res[2];
 let durChoice = 4000;
-let durLightSelected = 1000;
+let durLightSelected = 990;
 let durCoin = 1000;
 let durOutcome = 2000;
 let filename;
@@ -1093,7 +1093,27 @@ const highlight = {
         return html;
     },
     choices: "NO_KEYS",
-    trial_duration: durLightSelected,
+    trial_duration: durLightSelected
+};
+
+const highlight_data = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function() {
+        let html;
+        if (pressedKey == "f") {// left stimulus is chosen
+            html = `<p class='left_position'><img src=${stim_l}></p>`;
+            html += "<p class='left_point'>左の絵を選びました。</p>"
+        } else if (pressedKey == "j") { // right stimulus is chosen
+            html = `<p class='right_position'><img src=${stim_r}></p>`;
+            html += "<p class='right_point'>右の絵を選びました。</p>";
+        } else {// no response
+            html = "<p class='center_point'>時間切れです。<br>";
+            html += "4秒以内に選択してください。</p>";
+        };
+        return html;
+    },
+    choices: "NO_KEYS",
+    trial_duration: 10,
     on_finish: function(data) {
         // record
         data.participantID = participantID;
@@ -1127,15 +1147,13 @@ const highlight = {
         };
         
         // update the number of exposure
-        if (chosenStim != null) {
-            if (condArray[block-1] == 0) {// low reward
-                numExposeLow[stim_l_index] += 1;
-                numExposeLow[stim_r_index] += 1;
-            } 
-            else if (condArray[block-1] == 1) {// high reward
-                numExposeHigh[stim_l_index] += 1;
-                numExposeHigh[stim_r_index] += 1;
-            };
+        if (condArray[block-1] == 0) {// low reward
+            numExposeLow[stim_l_index] += 1;
+            numExposeLow[stim_r_index] += 1;
+        } 
+        else if (condArray[block-1] == 1) {// high reward
+            numExposeHigh[stim_l_index] += 1;
+            numExposeHigh[stim_r_index] += 1;
         };
     }
 };
@@ -1358,6 +1376,7 @@ const one_block = {
         ITI_main,
         show_and_select,
         highlight,
+        highlight_data,
         get_coin,
         present_bonus_slot,
         spin_bonus_slot,
@@ -1577,14 +1596,14 @@ const full_exp = {
         preload3,
         start_FS,
         informedConsent,
-        inform_ID,
+        inform_ID,/*
         som_block,
         cesd_block,
         first_inst,
         prac_block,
         inst_after_prac,
         confirmation_repeat,
-        text_after_confirmation,
+        text_after_confirmation,*/
         all_blocks,
         inst_memory,
         memory_block,
