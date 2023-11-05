@@ -1596,14 +1596,14 @@ const full_exp = {
         preload3,
         start_FS,
         informedConsent,
-        inform_ID,/*
+        inform_ID,
         som_block,
         cesd_block,
         first_inst,
         prac_block,
         inst_after_prac,
         confirmation_repeat,
-        text_after_confirmation,*/
+        text_after_confirmation,
         all_blocks,
         inst_memory,
         memory_block,
