@@ -1056,7 +1056,7 @@ const show_and_select = {
     },
     choices: ["f", "j"],
     trial_duration: durChoice,
-    on_finish: function(data) {
+    on_finish: function() {
         // get response
         pressedKey = jsPsych.data.get().last(1).values()[0].response;
         if (pressedKey == "f") {
@@ -1436,31 +1436,6 @@ let correct;
 
 // trial for memory test
 const memory_trial = {
-    on_start: function() {
-        if (memoryTrial == 1) {
-            // find familiar stimuli
-            numExposeHigh.filter((value, index) =>  {
-                if (value > 3) {
-                    memoryStimIdxH.push(index)
-                };
-            });
-
-            numExposeLow.filter((value, index) =>  {
-                if (value > 3) {
-                    memoryStimIdxL.push(index)
-                };
-            });
-
-            // select 15 stimuli randomly
-            memoryStimIdxH = jsPsych.randomization.sampleWithoutReplacement(memoryStimIdxH, numMemoryStim/2);
-            memoryStimIdxL = jsPsych.randomization.sampleWithoutReplacement(memoryStimIdxL, numMemoryStim/2);
-            for (let k=0; k<numMemoryStim/2; k++) {
-                memoryStimH[k] = main_stim_h[memoryStimIdxH[k]];
-                memoryStimL[k] = main_stim_l[memoryStimIdxL[k]];
-            };
-            memoryStimU = jsPsych.randomization.sampleWithoutReplacement(test_stim, numMemoryStim);
-        }
-    },
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function() {
         let html;
@@ -1514,6 +1489,31 @@ const memory_ITI = {
 
 // timeline for memory test
 const memory_block = {
+    on_start: function() {
+        if (memoryTrial == 1) {
+            // find familiar stimuli
+            numExposeHigh.filter((value, index) =>  {
+                if (value > 3) {
+                    memoryStimIdxH.push(index)
+                };
+            });
+
+            numExposeLow.filter((value, index) =>  {
+                if (value > 3) {
+                    memoryStimIdxL.push(index)
+                };
+            });
+
+            // select 15 stimuli randomly
+            memoryStimIdxH = jsPsych.randomization.sampleWithoutReplacement(memoryStimIdxH, numMemoryStim/2);
+            memoryStimIdxL = jsPsych.randomization.sampleWithoutReplacement(memoryStimIdxL, numMemoryStim/2);
+            for (let k=0; k<numMemoryStim/2; k++) {
+                memoryStimH[k] = main_stim_h[memoryStimIdxH[k]];
+                memoryStimL[k] = main_stim_l[memoryStimIdxL[k]];
+            };
+            memoryStimU = jsPsych.randomization.sampleWithoutReplacement(test_stim, numMemoryStim);
+        }
+    },
     timeline: [
         memory_ITI,
         memory_trial
@@ -1549,7 +1549,7 @@ const end_exp2 = {
         let text;
         text = "<p class='inst_text'>転送が終了しました。<br>";
         text += "改めて，ありがとうございました。<br>";
-        text += `冒頭でもお伝えしたように，あなたのIDは${participantID}です。`;
+        text += `冒頭でもお伝えしたように，あなたのIDは "${participantID}" です。<br>`;
         text += "お手数ですが，このIDとともに，実験が終了したことを実験実施者までメールで伝えてください。<br>";
         text += "それでは，escキーを押して画面を閉じてください。</p>";
         return text;
