@@ -704,6 +704,7 @@ const show_and_select_prac = {
         html += `<p class='right_position'><img src=${stim_r}></p>`;
         html += "<p class='left_point'>F</p>";
         html += "<p class='right_point'>J</p>";
+        html += "<p class='trial_pos'>選択は4秒以内に行ってください。</p>";
         html += `<p class='upper_right'>このカジノで得た金額：<br><b>${pointInBlock}</b>円</p>`;
         return html;
     },
@@ -1570,6 +1571,8 @@ const end_exp2 = {
         text += "改めて，ありがとうございました。<br>";
         text += `冒頭でもお伝えしたように，あなたのIDは "${participantID}" です。<br>`;
         text += "お手数ですが，このIDとともに，実験が終了したことを実験実施者までメールで伝えてください。<br>";
+        text += "謝礼については，12月上旬までを目安に，順次お渡ししていきます。<br>";
+        text += "後ほどメールでも説明いたしますが，謝礼の受け取り，および受領メッセージの送信を忘れないようお願いいたします。<br>";
         text += "それでは，escキーを押して画面を閉じてください。</p>";
         return text;
     },
@@ -1596,14 +1599,14 @@ const full_exp = {
         preload3,
         start_FS,
         informedConsent,
-        inform_ID,/*
+        inform_ID,
         som_block,
         cesd_block,
         first_inst,
         prac_block,
         inst_after_prac,
         confirmation_repeat,
-        text_after_confirmation,*/
+        text_after_confirmation,
         all_blocks,
         inst_memory,
         memory_block,
