@@ -317,6 +317,7 @@ let stim_l_index;
 let stim_r_index;
 let stim_l;
 let stim_r;
+let RT;
 let chosenStim; // the index number of the chosen stimulus (0-33)
 let unchosenStim;
 let chosenStimIdx; // index indicating what number the stimulus is in stimIdxInBlock (0-4)
@@ -1060,6 +1061,7 @@ const show_and_select = {
     on_finish: function() {
         // get response
         pressedKey = jsPsych.data.get().last(1).values()[0].response;
+        RT = jsPsych.data.get().last(1).values()[0].rt;
         if (pressedKey == "f") {
             isLeftSelected = 1;
             chosenStim = stim_l_index;
@@ -1124,6 +1126,7 @@ const highlight_data = {
         data.trialNumTotal = totalTrial;
         data.blockCond = condArray[block-1];
         data.timing = "first_choice";
+        data.RT = rt;
         data.leftStim = stim_l_index;
         data.rightStim = stim_r_index;
         data.leftStimOriginal = stim_l;
@@ -1574,7 +1577,7 @@ const end_exp2 = {
         text += "改めて，ありがとうございました。<br>";
         text += `冒頭でもお伝えしたように，あなたのIDは "${participantID}" です。<br>`;
         text += "お手数ですが，このIDとともに，実験が終了したことを実験実施者までメールで伝えてください。<br>";
-        text += "謝礼については，12月1日から12月8日の間に，順次お渡ししていく予定です。<br>";
+        text += "謝礼については，12月上旬までを目安に，順次お渡ししていきます。<br>";
         text += "後ほどメールでも説明いたしますが，謝礼の受け取り，および受領メッセージの送信を忘れないようお願いいたします。<br>";
         text += "それでは，escキーを押して画面を閉じてください。</p>";
         return text;
