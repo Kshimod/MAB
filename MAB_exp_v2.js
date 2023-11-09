@@ -1334,6 +1334,9 @@ const show_outcome = {
     on_finish: function(data) {
         data.participantID = participantID;
         data.timing = "outcome";
+        data.blockNumInCond = blockCond;
+        data.blockNumTotal = block;
+        data.trialNumInBlock = trialInBlock;
         data.isCoin = isCoin;
         data.reward = reward;
         data.pointInBlock = pointInBlock;
