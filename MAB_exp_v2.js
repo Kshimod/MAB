@@ -419,6 +419,50 @@ const inform_ID = {
 };
 
 // =========== Questionnaire =============
+// age
+const age = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "あなたの年齢を回答してください。",
+            required: true,
+            name: "age"
+        }
+    ],
+    on_load: function() {
+        let element = document.getElementById('input-0');
+        element.type = 'number',
+        element.min =17,
+        element.max = 40
+    },
+    on_finish: function(data) {
+        data.participantID = participantID;
+        data.timing = "age";
+        data.Age = data.response.age;
+    }
+};
+
+// Biological sex
+const bio_sex = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function() {
+        let text;
+        text = `<p class='q_main'>あなたの生物学性を回答してください。<br>`;
+        text += "<b>選択はA，B，C，Dのキーを押して</b>行ってください。</p>";
+        text += "<p class='q_option'>A: 女性<br>";
+        text += "B: 男性<br>";
+        text += "C: どちらでもない<br>";
+        text += "D: 回答しない<br>";
+        return text;
+    },
+    choices: ["a", "b", "c", "d"],
+    on_finish: function(data) {
+        data.participantID = participantID;
+        data.timing = "biolSex";
+        data.biolSex = jsPsych.data.get().last(1).values()[0].response;
+    }
+};
+
 // CES-D
 let cesd_inst = {
     type: jsPsychHtmlKeyboardResponse,
@@ -1607,6 +1651,8 @@ const full_exp = {
         start_FS,
         informedConsent,
         inform_ID,
+        age,
+        bio_sex,
         som_block,
         cesd_block,
         first_inst,
