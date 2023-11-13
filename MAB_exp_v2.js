@@ -358,6 +358,7 @@ let cesdTrial = 1;
 let cesdTrialNum = cesd_qs.length;
 let cesdAns;
 let cesdSum = 0;
+let trickAns;
 let som_qs = [
     "私はいま，人生における困難について楽観的な気持ちでいる。",
     "私はいま，物事がすべてうまくいくと期待している。",
@@ -518,6 +519,7 @@ let cesd_single = {
             cesdType = "reverse";
         } else if (idx == 20) {
             cesdType = "trick";
+            trickAns = cesdAns;
         } else {
             cesdType = "normal";
         };
@@ -1164,6 +1166,7 @@ const highlight_data = {
     on_finish: function(data) {
         // record
         data.participantID = participantID;
+        data.trickAns = trickAns;
         data.blockNumInCond = blockCond;
         data.blockNumTotal = block;
         data.trialNumInBlock = trialInBlock;
@@ -1620,7 +1623,8 @@ const end_exp2 = {
         text = "<p class='inst_text'>転送が終了しました。<br>";
         text += "改めて，ありがとうございました。<br>";
         text += `冒頭でもお伝えしたように，あなたのIDは "${participantID}" です。<br>`;
-        text += "お手数ですが，このIDとともに，実験が終了したことを実験実施者までメールで伝えてください。<br>";
+        text += "お手数ですが，このIDとともに，実験が終了したことを,";
+        text += "送っていただいた「同意を示すメール」に返信する形で，実験実施者まで伝えてください。<br>";
         text += "メールを送る際は，必ず<b>同意を示したメールに返信する形で</b>送るよう，お願いいたします。<br>";
         text += "謝礼については12月1日から8日の間にお渡しする予定ですので，少々お待ちいただけたら幸いです。<br>";
         text += "後ほどメールでも説明いたしますが，謝礼の受け取り，および受領メッセージの送信を忘れないようお願いいたします。<br>";
