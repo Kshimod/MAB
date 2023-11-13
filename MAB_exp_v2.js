@@ -327,10 +327,10 @@ let pressedKey;
 let isLeftSelected;
 let isCoin; // whether coin was obtained or not
 let reward; // presented size of reward
-let largeMean = 80;
-let smallMean = 10;
-let largeSD = 8;
-let smallSD = 1;
+let largeMean = 100;
+let smallMean = 20;
+let largeSD = 10;
+let smallSD = 2;
 let cesd_qs = [
     "普段はなんでもないことがわずらわしい。",
     "食べたくない。食欲が落ちた。",
