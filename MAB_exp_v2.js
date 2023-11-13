@@ -1506,6 +1506,7 @@ let stimType = Array(numMemoryStim/2).fill(0).concat(Array(numMemoryStim/2).fill
 stimType = jsPsych.randomization.shuffle(stimType);
 let YorN;
 let correct;
+let totalCorrect = 0;
 
 // trial for memory test
 const memory_trial = {
@@ -1545,11 +1546,13 @@ const memory_trial = {
             };
         };
         // record
+        totalCorrect += correct;
         data.participantID = participantID;
         data.timing = "memoryTest";
         data.memoryTrial = memoryTrial;
         data.memoryStimType = stimType[memoryTrial-1];
         data.memoryCorrect = correct;
+        data.memoryTotalCorrect = totalCorrect;
     }
 };
 
